@@ -31,6 +31,7 @@ Route::middleware('splade')->group(function () {
         Route::middleware('auth')->group(function () {
             Route::get('/', [App\Http\Controllers\AppController::class, 'home'])->name('home');
             Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+            Route::get('/vendas', [\App\Http\Controllers\SaleController::class, 'index'])->name('sale.index');
         });
 
             Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

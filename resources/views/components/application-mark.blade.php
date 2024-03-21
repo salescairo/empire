@@ -1,1 +1,1 @@
-<img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo.png') }}" width="40" height="40" alt="empire"/>
+<img src="{{ \Illuminate\Support\Facades\Vite::asset('resources/images/logo.png') }}" width="42" height="42" alt="empire"/>
