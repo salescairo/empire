@@ -12,6 +12,10 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public const SALE_TYPE = 10;
+    public const ADMIN_TYPE = 20;
+    public const MASTER_TYPE = 30;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
+        'enabled',
     ];
 
     /**
@@ -41,5 +47,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'type' => 'int',
+        'enabled' => 'boolean',
     ];
+
+    public static function getTypes(): array
+    {
+        return [
+            self::SALE_TYPE,
+            self::ADMIN_TYPE,
+            self::MASTER_TYPE,
+        ];
+    }
 }
