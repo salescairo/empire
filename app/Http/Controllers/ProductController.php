@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
 use App\Services\BrandService;
 use App\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +26,7 @@ class ProductController
     public function create(): Response
     {
         return response()->view('model.product.create', [
-            'brands' => $this->brand_service->findAll([])
+            'brands' => $this->brand_service->findEnabledAll()
         ]);
     }
 

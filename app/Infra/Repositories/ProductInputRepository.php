@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace App\Infra\Repositories;
 
 use App\Infra\Contracts\ProductInputInterface;
+use App\Models\Product;
 use App\Models\ProductInput;
 use Illuminate\Database\Eloquent\Builder;
 
 class ProductInputRepository extends ResourceRepository implements ProductInputInterface
 {
     public mixed $model = ProductInput::class;
-    public array $relationships = ['product.brand'];
+    public array $relationships = ['product.brand', 'user'];
 
     public function customFilters(Builder $query, array $data): void
     {

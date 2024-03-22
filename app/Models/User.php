@@ -15,6 +15,7 @@ class User extends Authenticatable
     public const SALE_TYPE = 10;
     public const ADMIN_TYPE = 20;
     public const MASTER_TYPE = 30;
+    public const NAME_FIELD = 'name';
 
     /**
      * The attributes that are mass assignable.

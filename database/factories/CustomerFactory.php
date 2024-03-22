@@ -3,20 +3,21 @@
 namespace Database\Factories;
 
 use App\Models\Brand;
-use App\Models\Service;
+use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Service>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Customer>
  */
-class ServiceFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var class-string<\Illuminate\Database\Eloquent\Model>
      */
-    protected $model = Service::class;
+    protected $model = Customer::class;
 
     /**
      * Define the model's default state.
@@ -27,7 +28,9 @@ class ServiceFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'enabled' => fake()->boolean(),
+            'document' => fake('pt_BR')->cpf(),
+            'email' => fake()->safeEmail(),
+            'phone' => fake()->e164PhoneNumber(),
         ];
     }
 }

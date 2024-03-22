@@ -2,25 +2,20 @@
 
 namespace Tests\Unit\Services;
 
-use App\Infra\Repositories\BrandRepository;
-use App\Infra\Repositories\ProductRepository;
-use App\Models\Brand;
-use App\Models\Product;
-use App\Services\ProductService;
+use App\Infra\Repositories\CustomerRepository;
+use App\Models\Customer;
+use App\Services\CustomerService;
 use PHPUnit\Framework\MockObject\Exception;
 use Tests\TestCase;
 
-class ProductServiceTest extends TestCase
+class CustomerServiceTest extends TestCase
 {
     /**
      * @throws Exception
      */
     public function setUp(): void
     {
-        $this->service = (new ProductService(
-            app(ProductRepository::class),
-            app(BrandRepository::class)
-        ));
+        $this->service = (new CustomerService(app(CustomerRepository::class)));
         parent::setUp();
     }
 
@@ -36,7 +31,7 @@ class ProductServiceTest extends TestCase
         $expected_count = 2;
         $data = [];
 
-        Product::factory()->count(2)->create();
+        Customer::factory()->count(2)->create();
         $response = $this->service->findPaginate($data);
 
         $this->assertEquals(
@@ -50,7 +45,7 @@ class ProductServiceTest extends TestCase
         $expected_count = 2;
         $data = [];
 
-        Product::factory()->count(2)->create();
+        Customer::factory()->count(2)->create();
         $response = $this->service->findAll($data);
 
         $this->assertCount(
@@ -61,7 +56,7 @@ class ProductServiceTest extends TestCase
 
     public function testGetItem_WithValidId_ShouldExpectedResponse(): void
     {
-        $object = Product::factory()->create();
+        $object = Customer::factory()->create();
         $response = $this->service->findById($object->id);
 
         $this->assertEquals(
@@ -72,11 +67,12 @@ class ProductServiceTest extends TestCase
 
     public function testStore_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'MONITOR';
+        $expected_name = 'MARCOS JORGE DE OLIVEIRA';
         $data = [
             'name' => $expected_name,
-            'brand_id' => Brand::factory()->create()->id,
-            'active' => true
+            'document' => '122.124.124-09',
+            'email' => 'margos.oliver@gmail.com',
+            'phone' => '(88) 9 8144-0998',
         ];
 
         $response = $this->service->save($data);
@@ -89,12 +85,12 @@ class ProductServiceTest extends TestCase
 
     public function testUpdate_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'MONITOR';
+        $expected_name = 'MARCOS JORGE DE OLIVEIRA';
         $data = [
             'name' => $expected_name,
         ];
 
-        $model = Product::factory()->create(['name' => 'MOUSE']);
+        $model = Customer::factory()->create(['name' => 'MARCOS JOSÉ DE OLIVEIRA']);
         $response = $this->service->update($model->id, $data);
 
         $this->assertEquals(
@@ -105,7 +101,7 @@ class ProductServiceTest extends TestCase
 
     public function testDelete_WhenValidObject_ShouldExpectedSuccessfulResponse(): void
     {
-        $model = Product::factory()->create();
+        $model = Customer::factory()->create();
         $response = $this->service->delete($model->id);
 
         $this->assertTrue($response);

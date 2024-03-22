@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductInputRequest;
 use App\Http\Requests\ProductRequest;
 use App\Services\ProductInputService;
 use App\Services\ProductService;
@@ -43,13 +44,13 @@ class ProductInputController
         ]);
     }
 
-    public function store(ProductRequest $request): RedirectResponse
+    public function store(ProductInputRequest $request): RedirectResponse
     {
         $this->service->save($request->all());
         return back();
     }
 
-    public function update(Request $request, int $id): RedirectResponse|Response
+    public function update(ProductInputRequest $request, int $id): RedirectResponse|Response
     {
         $model = $this->service->findById($id);
         if (is_null($model)) {
