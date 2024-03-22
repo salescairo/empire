@@ -32,9 +32,10 @@ Route::middleware('splade')->group(function () {
             Route::get('/', [App\Http\Controllers\AppController::class, 'home'])->name('home');
             Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
             Route::get('/vendas', [\App\Http\Controllers\SaleController::class, 'index'])->name('sale.index');
+            Route::resource('/marcas', \App\Http\Controllers\BrandController::class)->names('brand');
         });
 
-            Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
