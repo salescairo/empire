@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use ProtoneMedia\Splade\Facades\Toast;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -27,6 +28,12 @@ class Handler extends ExceptionHandler
 
         $this->reportable(function (Throwable $e) {
             //
+        });
+        $this->reportable(function (EntityNotFoundException $e) {
+            Toast::title(title: 'Ops')
+                ->message($e->getMessage())
+                ->centerBottom()
+                ->autoDismiss(afterSeconds: 20);
         });
     }
 }

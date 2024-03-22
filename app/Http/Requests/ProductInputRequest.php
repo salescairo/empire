@@ -4,9 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Facades\Toast;
 
-class BrandRequest extends FormRequest
+class ProductInputRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,9 +17,17 @@ class BrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:80', 'unique:App\Models\Brand,name'],
-            'enabled' => ['required', 'boolean'],
+            'product_id' => ['required', 'integer', 'exists:App\Models\Product,id'],
+            'value' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric', 'min:1'],
         ];
+    }
+
+    public function prepareForValidation(): array
+    {
+        $value = Str::replace('.', '', $this->value);
+        $rules['value'] = Str::replace(',', '.', $value);
+        return $rules;
     }
 
     public function failedValidation(Validator $validator)

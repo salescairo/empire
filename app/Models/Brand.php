@@ -10,6 +10,7 @@ class Brand extends Model
     use HasFactory;
 
     public const NAME_FIELD = 'name';
+    public const ENABLED_FIELD = 'enabled';
 
     protected $fillable = [
         'name',

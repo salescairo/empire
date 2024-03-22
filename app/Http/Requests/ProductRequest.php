@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use ProtoneMedia\Splade\Facades\Toast;
 
-class BrandRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -16,7 +16,7 @@ class BrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:2', 'max:80', 'unique:App\Models\Brand,name'],
+            'name' => ['required', 'string', 'min:2', 'max:80', 'unique:App\Models\Product,name'],
             'enabled' => ['required', 'boolean'],
         ];
     }

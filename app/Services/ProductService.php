@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Infra\Contracts\BrandInterface;
+use App\Infra\Contracts\ProductInterface;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class BrandService
+class ProductService
 {
-    public function __construct(private readonly BrandInterface $repository)
-    {
+    public function __construct(
+        private readonly ProductInterface $repository,
+        private readonly BrandInterface $brand_repository
+    ) {
     }
 
     public function findPaginate(array $data): LengthAwarePaginator
@@ -21,8 +25,10 @@ class BrandService
 
     public function findAll(array $data): Collection
     {
-        $data['enabled'] = true;
-        return $this->repository->findAll($data);
+        return $this->repository->findAll($data)->map(function (Product $product) {
+            $product->content = $product->name . ' - ' . $product->brand->name;
+            return $product;
+        });
     }
 
     public function findById(int $id): ?object
@@ -32,11 +38,13 @@ class BrandService
 
     public function save(array $data): ?object
     {
+        $data[Product::BRAND_ID] = $this->brand_repository->findById($data[Product::BRAND_ID]);
         return $this->repository->save($data);
     }
 
     public function update(int $id, array $data): ?object
     {
+        $data[Product::BRAND_ID] = $this->brand_repository->findById($data[Product::BRAND_ID]);
         return $this->repository->update($id, $data);
     }
 
