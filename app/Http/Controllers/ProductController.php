@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BrandRequest;
+use App\Http\Requests\ProductRequest;
 use App\Services\BrandService;
+use App\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class BrandController
+class ProductController
 {
-    public function __construct(public BrandService $service)
-    {
+    public function __construct(
+        public ProductService $service,
+        public BrandService $brand_service
+    ) {
     }
 
     public function index(Request $request): Response
     {
-        return response()->view('model.brand.index', [
+        return response()->view('model.product.index', [
             'models' => $this->service->findPaginate($request->all())]
         );
     }
 
     public function create(): Response
     {
-        return response()->view('model.brand.create');
+        return response()->view('model.product.create', [
+            'brands' => $this->brand_service->findAll([])
+        ]);
     }
 
     public function edit(int $id): RedirectResponse|Response
@@ -32,12 +37,12 @@ class BrandController
         if (is_null($model)) {
             return back();
         }
-        return response()->view('model.brand.edit', [
+        return response()->view('model.product.edit', [
             'model' => $model
         ]);
     }
 
-    public function store(BrandRequest $request): RedirectResponse
+    public function store(ProductRequest $request): RedirectResponse
     {
         $this->service->save($request->all());
         return back();

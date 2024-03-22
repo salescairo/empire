@@ -6,21 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Product extends Model
+class ProductInput extends Model
 {
     use HasFactory;
 
-    public const NAME_FIELD = 'name';
-    public const BRAND_ID = 'brand_id';
+    public const PRODUCT_ID_FIELD = 'product_id';
 
     protected $fillable = [
-        'name',
-        'brand_id',
-        'enabled',
+        'product_id',
+        'value',
+        'quantity',
     ];
 
-    public function brand(): BelongsTo
+    public function product(): BelongsTo
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Product::class);
     }
 }

@@ -4,25 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Infra\Contracts\BrandInterface;
-use Illuminate\Database\Eloquent\Collection;
+use App\Infra\Contracts\ServiceInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class BrandService
+class ServiceService
 {
-    public function __construct(private readonly BrandInterface $repository)
+    public function __construct(private readonly ServiceInterface $repository)
     {
     }
 
     public function findPaginate(array $data): LengthAwarePaginator
     {
         return $this->repository->findPaginate($data);
-    }
-
-    public function findAll(array $data): Collection
-    {
-        $data['enabled'] = true;
-        return $this->repository->findAll($data);
     }
 
     public function findById(int $id): ?object

@@ -9,13 +9,10 @@ class Service extends Model
 {
     use HasFactory;
 
+    public const NAME_FIELD = 'name';
+
     protected $fillable = [
         'name',
         'enabled',
-    ];
-
-    protected $casts = [
-        'name' => 'string',
-        'enabled' => 'boolean',
     ];
 }

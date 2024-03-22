@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection;
 abstract class ResourceRepository
 {
     public mixed $model;
+    public array $relationships;
 
     public function __construct()
     {
@@ -52,7 +53,7 @@ abstract class ResourceRepository
     public function findAll(array $data): array|Collection
     {
         $query = $this->getBuilder();
-        !empty($data) && $query->where($data);
+        $this->customFilters($query, $data);
         return $query->get();
     }
 
@@ -63,7 +64,7 @@ abstract class ResourceRepository
 
     public function getBuilder(): Builder
     {
-        return $this->model->query();
+        return $this->model->query()->with($this->relationships);
     }
 
     public function customFilters(Builder $query, array $data): void

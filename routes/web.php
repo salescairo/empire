@@ -33,6 +33,9 @@ Route::middleware('splade')->group(function () {
             Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
             Route::get('/vendas', [\App\Http\Controllers\SaleController::class, 'index'])->name('sale.index');
             Route::resource('/marcas', \App\Http\Controllers\BrandController::class)->names('brand');
+            Route::resource('/servicos', \App\Http\Controllers\ServiceController::class)->names('service');
+            Route::resource('/produtos', \App\Http\Controllers\ProductController::class)->names('product');
+            Route::resource('/entrada-de-produtos', \App\Http\Controllers\ProductInputController::class)->names('productInput');
         });
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
