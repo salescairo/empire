@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Infra\Repositories;
 
 use App\Exceptions\EntityNotFoundException;
-use App\Models\Brand;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

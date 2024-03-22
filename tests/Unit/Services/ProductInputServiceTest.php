@@ -2,24 +2,25 @@
 
 namespace Tests\Unit\Services;
 
-use App\Infra\Repositories\BrandRepository;
+use App\Infra\Repositories\ProductInputRepository;
 use App\Infra\Repositories\ProductRepository;
-use App\Models\Brand;
 use App\Models\Product;
-use App\Services\ProductService;
+use App\Models\ProductInput;
+use App\Models\User;
+use App\Services\ProductInputService;
 use PHPUnit\Framework\MockObject\Exception;
 use Tests\TestCase;
 
-class ProductServiceTest extends TestCase
+class ProductInputServiceTest extends TestCase
 {
     /**
      * @throws Exception
      */
     public function setUp(): void
     {
-        $this->service = (new ProductService(
-            app(ProductRepository::class),
-            app(BrandRepository::class)
+        $this->service = (new ProductInputService(
+            app(ProductInputRepository::class),
+            app(ProductRepository::class)
         ));
         parent::setUp();
     }
@@ -36,7 +37,7 @@ class ProductServiceTest extends TestCase
         $expected_count = 2;
         $data = [];
 
-        Product::factory()->count(2)->create();
+        ProductInput::factory()->count(2)->create();
         $response = $this->service->findPaginate($data);
 
         $this->assertEquals(
@@ -45,67 +46,63 @@ class ProductServiceTest extends TestCase
         );
     }
 
-    public function testGetAll_WithoutFilters_ShouldExpectedCount(): void
-    {
-        $expected_count = 2;
-        $data = [];
-
-        Product::factory()->count(2)->create();
-        $response = $this->service->findAll($data);
-
-        $this->assertCount(
-            expectedCount: $expected_count,
-            haystack: $response
-        );
-    }
-
     public function testGetItem_WithValidId_ShouldExpectedResponse(): void
     {
-        $object = Product::factory()->create();
+        $object = ProductInput::factory()->create();
         $response = $this->service->findById($object->id);
 
         $this->assertEquals(
-            expected: $object->name,
-            actual: $response->name
+            expected: $object->product_id,
+            actual: $response->product_id
+        );
+        $this->assertEquals(
+            expected: $object->value,
+            actual: $response->value
         );
     }
 
     public function testStore_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'MONITOR';
+        $expected_quantity = 2;
+        $expected_value = 100.00;
         $data = [
-            'name' => $expected_name,
-            'brand_id' => Brand::factory()->create()->id,
-            'active' => true
+            'value' => $expected_value,
+            'quantity' => $expected_quantity,
+            'product_id' => Product::factory()->create()->id
         ];
 
+        $this->actingAs(User::factory()->create());
         $response = $this->service->save($data);
 
         $this->assertEquals(
-            expected: $expected_name,
-            actual: $response->name
+            expected: $expected_quantity,
+            actual: $response->quantity
+        );
+        $this->assertEquals(
+            expected: $expected_value,
+            actual: $response->value
         );
     }
 
     public function testUpdate_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'MONITOR';
+        $expected_quantity = 15;
         $data = [
-            'name' => $expected_name,
+            'quantity' => $expected_quantity
         ];
 
-        $model = Product::factory()->create(['name' => 'MOUSE']);
+        $model = ProductInput::factory()->create(['quantity' => 10]);
         $response = $this->service->update($model->id, $data);
 
         $this->assertEquals(
-            expected: $expected_name,
-            actual: $response->name
+            expected: $expected_quantity,
+            actual: $response->quantity
         );
     }
 
     public function testDelete_WhenValidObject_ShouldExpectedSuccessfulResponse(): void
     {
-        $model = Product::factory()->create();
+        $model = ProductInput::factory()->create();
         $response = $this->service->delete($model->id);
 
         $this->assertTrue($response);

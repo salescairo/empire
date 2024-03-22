@@ -62,10 +62,13 @@
                                 Nome
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Marca
+                                Qtde
                             </th>
                             <th scope="col" class="px-6 py-3">
-                                Situação
+                                V. Unit
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                V. Total
                             </th>
                             <th scope="col" class="px-6 py-3">
                                 <div class="flex justify-end">
@@ -81,13 +84,16 @@
                                     {{ $model->id }}
                                 </th>
                                 <td class="px-6 py-4">
-                                    {{ $model->name }}
+                                    {{ $model->product->name }} - {{ $model->product->brand->name }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $model->brand->name }}
+                                    {{ $model->quantity }}
                                 </td>
                                 <td class="px-6 py-4">
-                                    {{ $model->enabled ? 'Ativado' : 'Desativado' }}
+                                    {{ number_format($model->value, 2, ',', '.') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    {{ number_format($model->quantity * $model->value, 2, ',', '.') }}
                                 </td>
                                 <td>
                                     <div class="flex justify-end">

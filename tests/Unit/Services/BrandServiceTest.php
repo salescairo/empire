@@ -40,6 +40,45 @@ class BrandServiceTest extends TestCase
         );
     }
 
+    public function testGetAll_WithoutFilters_ShouldExpectedCount(): void
+    {
+        $expected_count = 2;
+        $data = [];
+
+        Brand::factory()->count(2)->create();
+        $response = $this->service->findAll($data);
+
+        $this->assertCount(
+            expectedCount: $expected_count,
+            haystack: $response
+        );
+    }
+
+    public function testGetEnabled_WhenFindEnabledAllCalled_ShouldExpectedCount(): void
+    {
+        $expected_count = 2;
+
+        Brand::factory()->count(2)->create(['enabled' => true]);
+        Brand::factory()->count(5)->create(['enabled' => false]);
+        $response = $this->service->findEnabledAll();
+
+        $this->assertCount(
+            expectedCount: $expected_count,
+            haystack: $response
+        );
+    }
+
+    public function testGetItem_WithValidId_ShouldExpectedResponse(): void
+    {
+        $object = Brand::factory()->create();
+        $response = $this->service->findById($object->id);
+
+        $this->assertEquals(
+            expected: $object->name,
+            actual: $response->name
+        );
+    }
+
     public function testStore_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
         $expected_name = 'DELL';

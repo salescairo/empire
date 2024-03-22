@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Infra\Contracts\ServiceInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ServiceService
@@ -16,6 +17,11 @@ class ServiceService
     public function findPaginate(array $data): LengthAwarePaginator
     {
         return $this->repository->findPaginate($data);
+    }
+
+    public function findAll(array $data): Collection
+    {
+        return $this->repository->findAll($data);
     }
 
     public function findById(int $id): ?object

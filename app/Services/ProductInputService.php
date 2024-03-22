@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Infra\Contracts\ProductInputInterface;
 use App\Infra\Contracts\ProductInterface;
-use App\Models\Product;
 use App\Models\ProductInput;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -30,13 +29,15 @@ class ProductInputService
 
     public function save(array $data): ?object
     {
-        $data[ProductInput::PRODUCT_ID_FIELD] = $this->product_repository->findById($data[ProductInput::PRODUCT_ID_FIELD]);
+        $data[ProductInput::PRODUCT_ID_FIELD] = $this->product_repository->findById((int) $data[ProductInput::PRODUCT_ID_FIELD])?->id;
+        $data[ProductInput::USER_ID_FIELD] = auth()->user()->id;
         return $this->repository->save($data);
     }
 
     public function update(int $id, array $data): ?object
     {
-        $data[ProductInput::PRODUCT_ID_FIELD] = $this->product_repository->findById($data[ProductInput::PRODUCT_ID_FIELD]);
+        array_key_exists(key: ProductInput::PRODUCT_ID_FIELD,array: $data)
+            && $this->product_repository->findById((int) $data[ProductInput::PRODUCT_ID_FIELD])?->id;
         return $this->repository->update($id, $data);
     }
 

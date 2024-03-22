@@ -40,9 +40,34 @@ class ServiceServiceTest extends TestCase
         );
     }
 
+    public function testGetAll_WithoutFilters_ShouldExpectedCount(): void
+    {
+        $expected_count = 2;
+        $data = [];
+
+        Service::factory()->count(2)->create();
+        $response = $this->service->findAll($data);
+
+        $this->assertCount(
+            expectedCount: $expected_count,
+            haystack: $response
+        );
+    }
+
+    public function testGetItem_WithValidId_ShouldExpectedResponse(): void
+    {
+        $object = Service::factory()->create();
+        $response = $this->service->findById($object->id);
+
+        $this->assertEquals(
+            expected: $object->name,
+            actual: $response->name
+        );
+    }
+
     public function testStore_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'DELL';
+        $expected_name = 'INSTALACAO';
         $data = [
             'name' => $expected_name,
             'active' => true
@@ -58,12 +83,12 @@ class ServiceServiceTest extends TestCase
 
     public function testUpdate_WithValidData_ShouldExpectedSuccessfulResponse(): void
     {
-        $expected_name = 'DELL';
+        $expected_name = 'INSTALACAO';
         $data = [
             'name' => $expected_name,
         ];
 
-        $model = Service::factory()->create(['name' => 'HP']);
+        $model = Service::factory()->create(['name' => 'INSTALAÇÃO']);
         $response = $this->service->update($model->id, $data);
 
         $this->assertEquals(

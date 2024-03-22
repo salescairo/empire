@@ -21,6 +21,11 @@ class BrandService
 
     public function findAll(array $data): Collection
     {
+        return $this->repository->findAll($data);
+    }
+
+    public function findEnabledAll(): Collection
+    {
         $data['enabled'] = true;
         return $this->repository->findAll($data);
     }
