@@ -2,13 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Brand;
 use App\Models\Customer;
-use App\Models\Product;
-use App\Models\ProductInput;
 use App\Models\Sale;
 use App\Models\User;
-use Cassandra\Custom;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
