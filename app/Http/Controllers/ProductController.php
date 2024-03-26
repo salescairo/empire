@@ -7,6 +7,7 @@ use App\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Requests\ProductRequest;
 
 class ProductController
 {
@@ -47,7 +48,7 @@ class ProductController
         return back();
     }
 
-    public function update(Request $request, int $id): RedirectResponse|Response
+    public function update(ProductRequest $request, int $id): RedirectResponse|Response
     {
         $model = $this->service->findById($id);
         if (is_null($model)) {
